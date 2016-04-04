@@ -1,22 +1,26 @@
 <?php namespace AfricasTalking\Foundation;
 
+use GuzzleHttp\Client;
+
 class SmsIntegration{
-    protected $sms_url = 'https://api.africastalking.com/version1/messaging';
-
-    function __construct()
+    function __construct($credentials,Client $client)
     {
+        $this->sms_url = 'https://api.africastalking.com/version1/messaging';
 
+        $this->client = $client;
+
+        $this->credentials = $credentials;
     }
 
     /**
      * Send a single sms message
      *
-     * @param $to array The phone number(s) to send the message to.
+     * @param $to string The phone number(s) to send the message to.
      * @param $message string The message to be sent.
-     * @param $payload array An array containing the message and other optional parameters.
+     * @param $options array An array containing the message and other optional parameters.
      *
-     * The $payload array expects the following keys;
-     * bulk_sms :
+     * The $options array expects the following keys;
+     * bulkSMSMode :
      * from :
      * enqueue :
      * keyword :
@@ -24,8 +28,27 @@ class SmsIntegration{
      * retryDurationInHours :
      *
      * An explanation for the keys is available at http://docs.africastalking.com/sms/sending
+     *
+     * @return mixed|\Psr\Http\Message\ResponseInterface
      */
-    public function send($to,$message,$payload){
+    public function send($to,$message,$options){
+        //Validate the options
+        $optional_params = $this->validate_optional_parameters($options);
+
+        //Craft the parameters to be passed to the Guzzle client
+        $params = [
+            'username' => $this->credentials['username'],
+            'to' => $to,
+            'message' => $message,
+        ];
+
+        $api_params = array_merge($params,$optional_params);
+
+        $client = $this->client;
+
+        $response = $client->request('POST',$this->sms_url,['json' => $api_params]);
+
+        return $response;
 
     }
 
@@ -37,9 +60,31 @@ class SmsIntegration{
     }
 
     /**
-     * Validate the SMS optional parameters
+     * Validate the SMS optional parameters. Return a formatted array
+     *
+     * @param $options array
+     *
+     * @return array
      */
-    private function validate_parameters(){
+    private function validate_optional_parameters(array $options){
+        $allowed_keys = [
+            'bulkSMSMode',
+            'enqueue',
+            'keyword',
+            'linkId',
+            'retryDurationInHours',
+            'from'
+        ];
+
+        $params = [];
+
+        foreach($options as $key => $value){
+            if(in_array($key,$allowed_keys) && strlen($value) > 0){
+                $params[$key] = $value;
+            }
+        }
+
+        return $params;
 
     }
 
