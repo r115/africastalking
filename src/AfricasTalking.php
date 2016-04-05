@@ -57,10 +57,28 @@ class AfricasTalking{
      * Get the messages that you have sent.
      *
      * @param $last_id
+     * @return mixed
      */
     public function get_messages($last_id = 0){
         $obj = new SmsIntegration($this->credentials,$this->client);
 
         return $obj->get_messages($last_id);
+    }
+
+    /**
+     * Handle the delivery reports from AfricasTalking. The data is obtained simply from the POST parameters.
+     *
+     * We return a simple array.
+     * 
+     * @return array
+     */
+    public function handle_delivery_report(){
+        $report = [];
+
+        $report['status'] = $_POST['status'];
+        $report['message_id'] = $_POST['id'];
+        $report['reason'] = (isset($_POST['failureReason'])) ? $_POST['failureReason'] : null;
+
+        return $report;
     }
 }
