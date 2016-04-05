@@ -12,6 +12,17 @@ The main difference between this code and the official wrapper is that I opted t
 
 Be sure to checkout Guzzle's own dependencies.
 
+## Documentation
+Install using composer.
+
+`composer require nandwabee/africastalking`
+
+## Contribution
+This is an open source project so all ideas to help make this a better tool for other developers are highly welcome.
+
+Try as much as possible to stick to the PSR-4 standards.
+
+Waiting for the pull requests :-)
 
 ##TODO
 - <s>Send SMS</s>
