@@ -62,9 +62,25 @@ class SmsIntegration{
 
     /**
      * Get sms messages
+     *
+     * @param int $last_id
+     *
+     * @return mixed
      */
-    public function get_messages(){
+    public function get_messages($last_id=0){
+        $request = $this->client->createRequest('GET', $this->sms_url);
 
+        $request->addHeader('apikey',$this->credentials['key']);
+        $request->addHeader('Accept','application/json');
+
+        $params = $request->getQuery();
+
+        $params->set('username',$this->credentials['username']);
+        $params->set('lastReceivedId',$last_id);
+
+        $response = $this->client->send($request);
+
+        return $response->json();
     }
 
     /**

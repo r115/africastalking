@@ -52,4 +52,15 @@ class AfricasTalking{
         //Need to format the response
         return $response;
     }
+
+    /**
+     * Get the messages that you have sent.
+     *
+     * @param $last_id
+     */
+    public function get_messages($last_id = 0){
+        $obj = new SmsIntegration($this->credentials,$this->client);
+
+        return $obj->get_messages($last_id);
+    }
 }
