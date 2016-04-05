@@ -1,6 +1,7 @@
 <?php namespace AfricasTalking\Foundation;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Stream\Stream;
 
 class SmsIntegration{
     function __construct($credentials,Client $client)
@@ -46,9 +47,16 @@ class SmsIntegration{
 
         $client = $this->client;
 
-        $response = $client->request('POST',$this->sms_url,['json' => $api_params]);
+        $request = $client->createRequest('POST', $this->sms_url);
 
-        return $response;
+        $request->addHeader('apikey',$this->credentials['key']);
+        $request->addHeader('Accept','application/json');
+        $request->addHeader('content-type','application/x-www-form-urlencoded');
+        $request->setBody(Stream::factory(http_build_query($api_params)));
+
+        $response = $client->send($request);
+
+        return $response->json();
 
     }
 
