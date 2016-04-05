@@ -84,6 +84,13 @@ class SmsIntegration{
     }
 
     /**
+     * Create a new subscription
+     */
+    public function create_subscription($phone,$shortcode,$keyword){
+
+    }
+
+    /**
      * Validate the SMS optional parameters. Return a formatted array
      *
      * @param $options array

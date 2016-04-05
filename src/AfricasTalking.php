@@ -69,7 +69,7 @@ class AfricasTalking{
      * Handle the delivery reports from AfricasTalking. The data is obtained simply from the POST parameters.
      *
      * We return a simple array.
-     * 
+     *
      * @return array
      */
     public function handle_delivery_report(){
