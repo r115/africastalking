@@ -20,16 +20,20 @@ Install using composer.
 ### Sending Messages
 An sms can be sent out by calling the `send()` method.
 
-Example code below should suffice;
+The send method returns an array when a message is sent successfully.
+
+Example code below ;
 
 
 ```php
 
-//Instantiate the object`
+//Instantiate the object.
 
-$obj = new AfricasTalking();
+$obj = new AfricasTalking('my_username','my_key');
 
-$obj->send($to,$message,$options);
+$response = $obj->send($to,$message,$options);
+
+//Do something with the array
 
 ```
 
@@ -41,9 +45,18 @@ $obj->send($to,$message,$options);
 
 `$options` : *array* An array of optional parameters. 
 
-The options parameter allows the following parameters; `from,bulkSMSMode,enqueue,keyword,linkId,retryDurationInHours`
+The options parameter allows the following parameters; 
+
+`from,bulkSMSMode,enqueue,keyword,linkId,retryDurationInHours`
 
 The expected values for either of those parameters can be found on the [AfricasTalking API Docs](http://docs.africastalking.com/sms/sending/url#documentation)
+
+**Todo**
+
+Exception handling
+
+
+### Fetching User Details
 
 ## Contribution
 This is an open source project so all ideas to help make this a better tool for other developers are highly welcome.
@@ -63,3 +76,4 @@ Waiting for the pull requests :-)
 - Write tests
 - Support for airtime transactions
 - Fetch User data
+- Improve exception handling.

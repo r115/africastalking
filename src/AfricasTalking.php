@@ -81,4 +81,24 @@ class AfricasTalking{
 
         return $report;
     }
+    
+    /**
+     * Get the details of the user.
+     *
+     * @return array
+     */
+    public function get_user(){
+        $request = $this->client->createRequest('GET', 'https://api.africastalking.com/version1/user');
+        
+        $request->addHeader('apikey',$this->credentials['key']);
+        $request->addHeader('Accept','application/json');
+        
+        $params = $request->getQuery();
+
+        $params->set('username',$this->credentials['username']);
+        
+        $response = $this->client->send($request);
+
+        return $response->json()['balance'];
+    }
 }
