@@ -17,6 +17,29 @@ Install using composer.
 
 `composer require nandwabee/africastalking`
 
+### Sending Messages
+An sms can be sent out by calling the `send()` method.
+
+Example code below should suffice;
+
+`//Instantiate the object`
+
+`$obj = new AfricasTalking();`
+
+`$obj->send($to,$message,$options);`
+
+**Parameters**
+
+`$to` : *array* This is an array of the numbers to send the messages to.
+
+`$message` : *string* The message to be sent.
+
+`$options` : *array* The options array. 
+
+The options parameter allows the following parameters; `from,bulkSMSMode,enqueue,keyword,linkId,retryDurationInHours`
+
+The expected values for either of those parameters can be found on the [AfricasTalking API Docs](http://docs.africastalking.com/sms/sending/url#documentation)
+
 ## Contribution
 This is an open source project so all ideas to help make this a better tool for other developers are highly welcome.
 
