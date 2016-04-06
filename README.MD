@@ -22,11 +22,12 @@ An sms can be sent out by calling the `send()` method.
 
 Example code below should suffice;
 
-`//Instantiate the object`
 
-`$obj = new AfricasTalking();`
+    `//Instantiate the object`
 
-`$obj->send($to,$message,$options);`
+    `$obj = new AfricasTalking();`
+
+    `$obj->send($to,$message,$options);`
 
 **Parameters**
 
@@ -34,7 +35,7 @@ Example code below should suffice;
 
 `$message` : *string* The message to be sent.
 
-`$options` : *array* The options array. 
+`$options` : *array* An array of optional parameters. 
 
 The options parameter allows the following parameters; `from,bulkSMSMode,enqueue,keyword,linkId,retryDurationInHours`
 
