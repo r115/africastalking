@@ -23,11 +23,15 @@ An sms can be sent out by calling the `send()` method.
 Example code below should suffice;
 
 
-    `//Instantiate the object`
+```php
 
-    `$obj = new AfricasTalking();`
+//Instantiate the object`
 
-    `$obj->send($to,$message,$options);`
+$obj = new AfricasTalking();
+
+$obj->send($to,$message,$options);
+
+```
 
 **Parameters**
 
