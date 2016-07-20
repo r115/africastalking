@@ -22,7 +22,8 @@ class AfricasTalking{
     function __construct($username,$key){
         $this->client = new Client(
             [
-                'headers' => ['Accept' => 'application/json','apikey' => $key]
+                'headers' => ['Accept' => 'application/json','apikey' => $key],
+                'base_uri' => 'https://api.africastalking.com/version1/'
             ]
         );
 
@@ -88,17 +89,12 @@ class AfricasTalking{
      * @return array
      */
     public function get_user(){
-        $request = $this->client->createRequest('GET', 'https://api.africastalking.com/version1/user');
-        
-        $request->addHeader('apikey',$this->credentials['key']);
-        $request->addHeader('Accept','application/json');
-        
-        $params = $request->getQuery();
+        $username = $this->credentials['username'];
 
-        $params->set('username',$this->credentials['username']);
+        $request = $this->client->get('user',['query' => 'username=' . $username]);
         
-        $response = $this->client->send($request);
+        $response = json_decode($request->getBody(),true);
 
-        return $response->json()['balance'];
+        return $response;
     }
 }

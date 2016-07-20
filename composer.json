@@ -3,7 +3,7 @@
   "description": "A composer package for the Africa's talking mobile API's",
   "type": "library",
   "require": {
-    "guzzlehttp/guzzle": "~5.0",
+    "guzzlehttp/guzzle": "~6.0",
     "giggsey/libphonenumber-for-php": "^7.2"
   },
   "require-dev": {

@@ -1,12 +1,19 @@
 <?php namespace AfricasTalking\Foundation;
 
+/**
+ * Integrate with AfricasTalking SMS endpoints.
+ *
+ * @author Bernard Nandwa <bernard@nandwa.com>
+ * @licence MIT
+ */
+
 use GuzzleHttp\Client;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Psr7\Stream;
 
 class SmsIntegration{
     function __construct($credentials,Client $client)
     {
-        $this->sms_url = 'https://api.africastalking.com/version1/messaging';
+        $this->sms_url = 'messaging';
 
         $this->client = $client;
 
@@ -47,16 +54,16 @@ class SmsIntegration{
 
         $client = $this->client;
 
-        $request = $client->createRequest('POST', $this->sms_url);
+        $request = $client->post($this->sms_url,[
+            'headers' => [
+                'content-type' => 'application/x-www-form-urlencoded',
+            ],
+            'body' => http_build_query($api_params)
+        ]);
 
-        $request->addHeader('apikey',$this->credentials['key']);
-        $request->addHeader('Accept','application/json');
-        $request->addHeader('content-type','application/x-www-form-urlencoded');
-        $request->setBody(Stream::factory(http_build_query($api_params)));
+        $response = json_decode($request->getBody(),true);
 
-        $response = $client->send($request);
-
-        return $response->json();
+        return $response;
 
     }
 
@@ -68,19 +75,18 @@ class SmsIntegration{
      * @return mixed
      */
     public function get_messages($last_id=0){
-        $request = $this->client->createRequest('GET', $this->sms_url);
+        $username = $this->credentials['username'];
+        
+        $request = $this->client->get($this->sms_url,[
+            'query' => [
+                'username=' . $username,
+                'lastReceivedId=' . $last_id
+            ]
+        ]);
 
-        $request->addHeader('apikey',$this->credentials['key']);
-        $request->addHeader('Accept','application/json');
+        $response = json_decode($request->getBody(),true);
 
-        $params = $request->getQuery();
-
-        $params->set('username',$this->credentials['username']);
-        $params->set('lastReceivedId',$last_id);
-
-        $response = $this->client->send($request);
-
-        return $response->json();
+        return $response;
     }
 
     /**
